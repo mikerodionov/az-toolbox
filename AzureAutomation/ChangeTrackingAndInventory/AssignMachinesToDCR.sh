@@ -1,4 +1,4 @@
-# Script adds machines from trhe list as DCR resources
+# Script adds machines from the list as DCR resources
 
 # Set variables
 DCR_NAME="DATA COLECTION RULE NAME"
