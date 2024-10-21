@@ -3,7 +3,7 @@
 # Set target VMs variables - list of target VMs and their location
 RESOURCE_GROUP="VMs_RESOURCE_GROUP"
 SUBSCRIPTION="VMs_SUBSCRIPTION"
-LOCATION="NORTHEUROPE" # e.g. northeurope
+LOCATION="VMs_REGION" # e.g. northeurope
 MACHINE_NAMES=("VM_1" "VM_2" "VM_N")
 
 # Define color codes using tput
