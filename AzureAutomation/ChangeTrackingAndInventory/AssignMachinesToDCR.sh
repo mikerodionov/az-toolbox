@@ -1,3 +1,5 @@
+# Script adds machines from trhe list as DCR resources
+
 # Set variables
 DCR_NAME="DATA COLECTION RULE NAME"
 DCR_ASSOCIATION_NAME="DATA COLECTION RULE ASSOCIATION NAME"
