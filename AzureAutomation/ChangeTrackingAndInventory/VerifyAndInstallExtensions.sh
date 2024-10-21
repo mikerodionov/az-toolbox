@@ -38,7 +38,7 @@ for MACHINE_NAME in "${MACHINE_NAMES[@]}"; do
         --query "{VMName: '$MACHINE_NAME', Location: location, ExtensionName: name, ResourceGroup: resourceGroup}" --output tsv >/dev/null 2>&1; then
         echo -e "${GREEN}AzureMonitorWindowsAgent extension is installed on $MACHINE_NAME.${NC}"
       else
-        #echo -e "${RED}AzureMonitorWindowsAgent extension is not installed. Installing...${NC}"
+        echo -e "${RED}AzureMonitorWindowsAgent extension is not installed. Installing...${NC}"
         az connectedmachine extension create \
           --name AzureMonitorWindowsAgent \
           --publisher Microsoft.Azure.Monitor \
