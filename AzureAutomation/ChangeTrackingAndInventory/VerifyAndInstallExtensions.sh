@@ -1,10 +1,10 @@
-# Script checks installation of AzureMonitorWindowsAgent and ChangeTracking-Windows extensions and installs those if they are not installed iterating through VMs list
+# Script checks installation of AzureMonitorWindowsAgent and ChangeTracking-Windows extensions and installs those if they are not installed iterating through machines list
 
-# Set target VMs variables - list of target VMs and their location
-RESOURCE_GROUP="VMs_RESOURCE_GROUP"
-SUBSCRIPTION="VMs_SUBSCRIPTION"
-LOCATION="VMs_REGION" # e.g. northeurope
-MACHINE_NAMES=("VM_1" "VM_2" "VM_N")
+# Set target machines variables - list of target VMs and their location
+RESOURCE_GROUP="MACHINES_RESOURCE_GROUP"
+SUBSCRIPTION="MACHINES_SUBSCRIPTION"
+LOCATION="MACHINES_REGION" # e.g. northeurope
+MACHINE_NAMES=("MACHINE_1" "MACHINE_2" "MACHINE_N")
 
 # Define color codes using tput
 RED=$(tput setaf 1)
@@ -30,7 +30,7 @@ for MACHINE_NAME in "${MACHINE_NAMES[@]}"; do
     PROVISIONING_STATE="$PROVISIONING_OUTPUT"
     STATUS="$STATUS_OUTPUT"
 
-    # Proceed if provisioning state is "Succeeded" and status is not "Expired"
+    # Proceed if machine provisioning state is "Succeeded" and status is not "Expired"
     if [[ "$PROVISIONING_STATE" == "Succeeded" && "$STATUS" != "Expired" && "$STATUS" != "Offline" ]]; then
 
       # Check for AzureMonitorWindowsAgent extension and install if not installed
