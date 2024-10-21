@@ -31,7 +31,7 @@ for MACHINE_NAME in "${MACHINE_NAMES[@]}"; do
     STATUS="$STATUS_OUTPUT"
 
     # Proceed if machine provisioning state is "Succeeded" and status is not "Expired"
-    if [[ "$PROVISIONING_STATE" == "Succeeded" && "$STATUS" != "Expired" && "$STATUS" != "Offline" ]]; then
+    if [[ "$PROVISIONING_STATE" == "Succeeded" && "$STATUS" != "Expired" && "$STATUS" != "Offline" && "$STATUS" != "Disconnected" ]]; then
 
       # Check for AzureMonitorWindowsAgent extension and install if not installed
       if az connectedmachine extension show --name AzureMonitorWindowsAgent --machine-name "$MACHINE_NAME" --resource-group "$RESOURCE_GROUP" --subscription "$SUBSCRIPTION" \
