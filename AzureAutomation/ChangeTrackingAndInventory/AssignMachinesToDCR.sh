@@ -11,8 +11,10 @@ RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
 NC=$(tput sgr0) # No Color
 
+# Configure the Azure CLI to automatically and silently install any required extensions without prompting the user
+az config set extension.use_dynamic_install=yes_without_prompt 2>/dev/null
+
 # Get DCR ID
-az config set extension.dynamic_install_allow_preview=true 
 DCR_ID=$(az monitor data-collection rule show --name $DCR_NAME --resource-group $DCR_RESOURCE_GROUP --subscription $SUBSCRIPTION --query "id" --output tsv)
 
 # Iterate through machine names list and add them to DCR
@@ -33,13 +35,17 @@ for MACHINE_NAME in "${MACHINE_NAMES[@]}"; do
 
     # Proceed if machine provisioning state is "Succeeded" and status is not "Expired"
     if [[ "$PROVISIONING_STATE" == "Succeeded" && "$STATUS" != "Expired" && "$STATUS" != "Offline" && "$STATUS" != "Disconnected" ]]; then
-	  echo -e "${GREEN} Adding $MACHINE_NAME to $DCR_NAME ${NC}"
+      echo -e "${GREEN}Adding $MACHINE_NAME to $DCR_NAME${NC}"
       MACHINE_ID=$(az connectedmachine show --name "$MACHINE_NAME" --resource-group "$RESOURCE_GROUP" --subscription "$SUBSCRIPTION" --query "id" --output tsv)
-      echo $MACHINE_ID
-      az monitor data-collection rule association create --rule-id "$DCR_ID" --resource "$MACHINE_ID" --association-name "$DCR_ASSOCIATION_NAME"
-	else
-	  echo -e "${RED}Machine $MACHINE_NAME provisioning state: $PROVISIONING_STATE, status: $STATUS. Skipping.${NC}"
-	fi
+      # Create Data Collection Rule Association and suppress output if successful
+      if az monitor data-collection rule association create --rule-id "$DCR_ID" --resource "$MACHINE_ID" --association-name "$DCR_ASSOCIATION_NAME" >/dev/null 2>&1; then
+        echo -e "${GREEN}Done${NC}"
+      else
+        echo -e "${RED}Failed to add $MACHINE_NAME to $DCR_NAME${NC}" >&2
+      fi
+    else
+      echo -e "${RED}Machine $MACHINE_NAME provisioning state: $PROVISIONING_STATE, status: $STATUS. Skipping.${NC}"
+    fi
 	
   else
     # Custom error message, suppressing detailed output
