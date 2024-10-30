@@ -5,7 +5,7 @@
 # Scrpt produces CSV file with VM_NAME, VM_RESOURCE_GROUP, VM_SUBSCRIPTION, and COMMAND_OUTPUT columns
 # You can adjust query to target VMs you need
 # Adjust $COMMAND to execute command you need
-# Running this script requires Contributo rights on VM
+# Running this script requires Contributor rights on VM
 
 # Define the command to run on each VM
 COMMAND="COMMAND YOU WANT TO EXECUTE"
