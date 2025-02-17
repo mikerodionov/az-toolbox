@@ -1,0 +1,7 @@
+// Get all Azure Arc subscription names and IDs
+resources
+| where type == 'microsoft.hybridcompute/machines'
+| distinct subscriptionId
+| join kind=inner (resourcecontainers | where type == 'microsoft.resources/subscriptions' | project subscriptionId, subscriptionName = name) on subscriptionId
+| project subscriptionName, subscriptionId
+| order by subscriptionName asc
