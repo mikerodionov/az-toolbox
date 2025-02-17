@@ -1,0 +1,12 @@
+resources
+| where type == 'microsoft.hybridcompute/machines'
+| extend status = properties.status
+| where status !in ("Expired", "Disconnected")
+| extend agentVersion = properties.agentVersion
+| extend majorVersion = toint(split(agentVersion, '.')[0])
+| extend minorVersion = toint(split(agentVersion, '.')[1])
+| where majorVersion > 1 or (majorVersion == 1 and minorVersion >= 47)
+| extend softwareAssuranceCustomer = properties.licenseProfile.softwareAssurance.softwareAssuranceCustomer
+| extend cloudProvider = properties.cloudMetadata.provider
+| where notnull(softwareAssuranceCustomer) or softwareAssuranceCustomer == true
+| project subscriptionId, resourceGroup, name, location, agentVersion, softwareAssuranceCustomer, status, cloudProvider
