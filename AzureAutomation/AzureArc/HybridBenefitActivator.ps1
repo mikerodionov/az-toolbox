@@ -125,7 +125,7 @@ if (Get-Module -ListAvailable -Name Az.ConnectedMachine) {
         $azcmachines = Get-AzConnectedMachine | Group-Object -Property Location
         $Properties = GetRequestProperties
         foreach ($azcmachine in $azcmachines.Group) {
-            if ($azcmachine.status -eq "Connected" -and $azcmachine.agentVersion -ge "1.47" -and $azcmachine.OSType -eq "Windows" -and (-not $azcmachine.licenseProfile.softwareAssuranceCustomer -or $null -eq $azcmachine.licenseProfile.softwareAssuranceCustomer)) {
+            if ($azcmachine.status -eq "Connected" -and $azcmachine.agentVersion -ge "1.47" -and $azcmachine.OSType -eq "Windows" -and -not $azcmachine.licenseProfile.softwareAssuranceCustomer) {
                 Write-Host " [" -ForegroundColor DarkCyan -NoNewline
                 Write-Host $azcmachine.Name -ForegroundColor Green -NoNewline
                 Write-Host "]" -ForegroundColor DarkCyan -NoNewline
