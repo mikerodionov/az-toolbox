@@ -1,0 +1,5 @@
+resources
+| where type == "microsoft.storage/storageaccounts"
+| where name in ("<StorageAccountName1>", "<StorageAccountName2>")
+| project name, properties.networkAcls.defaultAction // Possible values for defaultAction: Allow, Deny; 
+// if access from selected networks configured you need to look at properties.networkAcls.virtualNetworkRules
