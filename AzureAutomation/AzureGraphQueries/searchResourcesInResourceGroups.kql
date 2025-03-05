@@ -1,0 +1,6 @@
+resources
+| where resourceGroup startswith "<Initial part of RG name>"
+| join kind=inner (resourcecontainers | where type == "microsoft.resources/subscriptions" | project subscriptionId, subscriptionName=name) on subscriptionId
+// | project resourceGroup, name, kind, subscriptionName
+// | order by resourceGroup
+| summarize count() by resourceGroup, subscriptionName
