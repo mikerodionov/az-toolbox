@@ -33,7 +33,7 @@
           "name": "web",
           "existenceCondition": {
             "field": "Microsoft.Web/sites/config/ftpsState",
-            "equals": "Disabled"
+            "exists": "true"
           },
           "roleDefinitionIds": [
             "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
