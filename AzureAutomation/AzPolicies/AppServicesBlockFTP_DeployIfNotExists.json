@@ -1,80 +1,65 @@
 {
-    "displayName": "Disable FTP for App Service Apps (DeployIfNotExists)",
-    "description": "Disable FTP for App Service Apps. This policy remediates new or changed resource.",
+    "displayName": "Disable FTP/FTPs for Web Apps (DeployIfNotExists)",
+    "description": "Disable FTP/FTPs for all Web Apps by setting ftpsState to Disabled. This policy remediates non-compliant resources by deploying the necessary changes.",
     "metadata": {
         "version": "1.0.0",
         "category": "App Service"
     },
     "mode": "Indexed",
-    "parameters": {
-        "effect": {
-          "type": "String",
-          "metadata": {
-            "displayName": "Effect",
-            "description": "DeployIfNotExists, AuditIfNotExists or Disabled the execution of the Policy"
-          },
-          "allowedValues": [
-            "DeployIfNotExists",
-            "AuditIfNotExists",
-            "Disabled"
-          ],
-          "defaultValue": "DeployIfNotExists"
-        }
-      },
     "policyRule": {
-      "if": {
-        "field": "type",
-        "equals": "Microsoft.Web/sites"
-      },
-      "then": {
-        "effect": "[parameters('effect')]",
-        "details": {
-          "type": "Microsoft.Web/sites/config",
-          "name": "web",
-          "existenceCondition": {
-            "field": "Microsoft.Web/sites/config/ftpsState",
-            "exists": "true"
-          },
-          "roleDefinitionIds": [
-            "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
-          ],
-          "deployment": {
-            "properties": {
-              "mode": "incremental",
-              "parameters": {
-                "name": {
-                  "value": "[field('name')]"
+        "if": {
+            "field": "type",
+            "equals": "Microsoft.Web/sites"
+        },
+        "then": {
+            "effect": "DeployIfNotExists",
+            "details": {
+                "type": "Microsoft.Web/sites/config",
+                "name": "web",
+                "existenceCondition": {
+                    "field": "Microsoft.Web/sites/config/ftpsState",
+                    "equals": "Disabled"
                 },
-                "location": {
-                  "value": "[field('location')]"
-                }
-              },
-              "template": {
-                "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                "contentVersion": "1.0.0.0",
-                "parameters": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "location": {
-                    "type": "string"
-                  }
-                },
-                "resources": [
-                  {
-                    "name": "[concat(parameters('name'), '/web')]",
-                    "type": "Microsoft.Web/sites/config",
-                    "location": "[parameters('location')]",
-                    "apiVersion": "2018-11-01",
+                "roleDefinitionIds": [
+                    "/providers/Microsoft.Authorization/roleDefinitions/de139f84-1756-47ae-9be6-808fbbe84772"
+                ],
+                "deployment": {
                     "properties": {
-                      "ftpsState": "Disabled"
+                        "mode": "incremental",
+                        "parameters": {
+                            "name": {
+                                "value": "[field('name')]"
+                            },
+                            "location": {
+                                "value": "[field('location')]"
+                            }
+                        },
+                        "template": {
+                            "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                            "contentVersion": "1.0.0.0",
+                            "parameters": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "location": {
+                                    "type": "string"
+                                }
+                            },
+                            "resources": [
+                                {
+                                    "name": "[concat(parameters('name'), '/web')]",
+                                    "type": "Microsoft.Web/sites/config",
+                                    "location": "[parameters('location')]",
+                                    "apiVersion": "2018-11-01",
+                                    "properties": {
+                                        "ftpsState": "Disabled"
+                                    }
+                                }
+                            ]
+                        }
                     }
-                  }
-                ]
-              }
+                }
             }
-          }
         }
-      }
     }
-  }
+}
