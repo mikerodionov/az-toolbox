@@ -1,6 +1,6 @@
 {
-    "displayName": "Disable FTP or enforce FTPS only for App Service Apps (DeployIfNotExists)",
-    "description": "Disable FTP or enforce FTPS only for App Service Apps. This policy remediates new or changed resource.",
+    "displayName": "Disable FTP for App Service Apps (DeployIfNotExists)",
+    "description": "Disable FTP for App Service Apps. This policy remediates new or changed resource.",
     "metadata": {
         "version": "1.0.0",
         "category": "App Service"
