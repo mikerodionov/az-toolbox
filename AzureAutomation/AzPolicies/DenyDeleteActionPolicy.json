@@ -1,0 +1,23 @@
+{
+  "mode": "Indexed",
+  "policyRule": {
+    "if": {
+      "not": {
+        "field": "tags.allowDelete",
+        "equals": "true"
+      }
+    },
+    "then": {
+      "effect": "denyAction",
+      "details": {
+        "actionNames": [
+          "delete"
+        ],
+        "cascadeBehaviors": {
+          "resourceGroup": "deny"
+        }
+      }
+    }
+  },
+  "parameters": {}
+}
