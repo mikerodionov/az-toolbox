@@ -4,7 +4,6 @@ az graph query -q "Resources
 | where type == 'microsoft.hybridcompute/machines' 
 | where name in~ ('MACHINE-A','MACHINE-B','MACHINE-C') 
 | project name, resourceGroup, subscriptionId, location, status=tostring(properties.status), privateLinkScope=tostring(properties.privateLinkScopeResourceId)" \
-  --first 10 \
   --query "data[].{Name:name, ResourceGroup:resourceGroup, Location:location, Status:status, PrivateLinkScope:privateLinkScope}" \
   -o table
 
@@ -13,6 +12,5 @@ az graph query -q "Resources
 | where type == 'microsoft.hybridcompute/machines' 
 | where name in~ ('MACHINE-A','MACHINE-B','MACHINE-C') 
 | project name, resourceGroup, location, status=tostring(properties.status), plsName=tostring(split(properties.privateLinkScopeResourceId,'/')[8])" \
-  --first 10 \
   --query "data[].{Name:name, ResourceGroup:resourceGroup, Location:location, Status:status, PrivateLinkScope:plsName}" \
   -o table
